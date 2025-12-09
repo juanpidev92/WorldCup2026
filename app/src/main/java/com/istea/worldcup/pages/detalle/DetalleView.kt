@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -33,7 +31,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,14 +41,14 @@ import com.istea.worldcup.R
 import com.istea.worldcup.domain.Group
 import com.istea.worldcup.domain.Match
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetalleView (
+fun DetalleView(
     modifier: Modifier = Modifier,
-    state : DetalleState,
-    onAction: (DetalleIntencion)->Unit
+    state: DetalleState,
+    onAction: (DetalleIntencion) -> Unit
 ) {
+
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         onAction(DetalleIntencion.CargarContenido)
@@ -60,11 +57,12 @@ fun DetalleView (
     Scaffold(
         topBar = {
             TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Green,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                ),
                 title = { Text(text = "Partidos") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -73,10 +71,9 @@ fun DetalleView (
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Localized description"
+                            contentDescription = "Volver"
                         )
                     }
-
                 }
             )
         }
@@ -91,7 +88,7 @@ fun DetalleView (
             when (state) {
                 DetalleState.Cargando -> Cargando()
                 is DetalleState.Error -> Text(text = state.mensaje)
-                is DetalleState.Resultado -> Contenido( state.grupo )
+                is DetalleState.Resultado -> Contenido(state.grupo)
                 DetalleState.Vacio -> Text(text = "")
             }
         }
@@ -100,11 +97,11 @@ fun DetalleView (
 
 @Composable
 fun Cargando() {
-    Box (
+    Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         CircularProgressIndicator(
             modifier = Modifier.size(160.dp),
             strokeWidth = 20.dp,
@@ -114,7 +111,7 @@ fun Cargando() {
 }
 
 @Composable
-fun Contenido(grupo: Group){
+fun Contenido(grupo: Group) {
     Column {
         Text(
             grupo.name,
@@ -123,7 +120,6 @@ fun Contenido(grupo: Group){
         )
         MatchesListView(matches = grupo.matches)
     }
-
 }
 
 @Composable
@@ -179,7 +175,6 @@ fun MatchCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Date row
             Text(
                 text = "Fecha: ${match.date}",
                 style = MaterialTheme.typography.bodySmall,
