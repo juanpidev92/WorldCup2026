@@ -105,7 +105,7 @@ fun GroupCardView(
 @Composable
 fun BackgroundImage() {
     Image(
-        painter = painterResource(R.drawable.logo_viejo),
+        painter = painterResource(R.drawable.logo),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
