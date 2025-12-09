@@ -13,5 +13,3 @@ La aplicación WorldCup tiene algunos errores que deben ser corregidos:
 5- El NavBar esta de color verde en la pantalla de detalle del grupo
 
 6- El boton para ir para atras no esta funcionando
-
-Juan Pablo Mancebo May
